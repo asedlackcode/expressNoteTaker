@@ -5,7 +5,7 @@ const db = require("./db.json");
 
 
 const app = express();
-const PORT = 8085;
+const PORT = 8081;
 
 var notes = [];
 
@@ -23,16 +23,29 @@ app.get("/notes", function(req, res) {
 });
 
 app.get("/api/notes",function(req,res) {
-    fs.readFile("./db.json", "utf8", (err, data) => {
-        if (err) {
-            throw err;
-        } 
+   fs.readFile("./db.json", "utf8", (err, data) => {
+       if (err) {
+           throw err;
+       }
         return res.json(data);
-    });
+   });
 });
 
 app.post("/api/notes", function (req, res) {
-    fs.writeFile("./db.json", "utf8")
+    var id = 1;
+    var newNote = req.body.title;
+    notes.push(newNote);
+    id++;
+    var notesJ = json.stringify(notes);
+    fs.readFile("./db.json", "utf8", (err, res) => {
+        if (err) throw err;
+        ;
+        
+        fs.writeFile("./db.json", notesJ, "utf8", err => {
+        if (err) throw err;
+    })
+    res.end();
+    });
 })
 
 app.listen(PORT, function() {
