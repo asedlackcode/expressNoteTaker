@@ -2,12 +2,13 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const db = require("./db.json");
-
+const router = require("express").Router();
+const DB = require("./db");
 
 const app = express();
 const PORT = 8081;
 
-var notes = [];
+
 
 app.use(express.urlencoded({ extended:true }));
 app.use(express.json());
@@ -19,19 +20,26 @@ app.get("/", function(req, res) {
 });
 
 app.get("/notes", function(req, res) {
-    res.sendFile(path.join(__dirname, "./notes.html"));
+    
+    res.sendFile(path.join(__dirname, "./notes.html"))
 });
 
-app.get("/api/notes",function(req,res) {
-   fs.readFile("./db.json", "utf8", (err, data) => {
-       if (err) {
-           throw err;
-       }
-        return res.json(data);
-   });
+app.get("/api/notes", function(req, res) {
+    
+    DB.getNote()
+    .then((note) => res.join(note))
+    .catch((err) => res.status(500).json(err));
 });
 
-app.post("/api/notes", function (req, res) {
+
+app.post("/api/notes",function(req,res) {
+   DB.addNote(req.body)
+   .then((note) => res.json(note))
+   .catch((err) => res.status(500).json(err));
+   res.end();
+});
+
+/*app.post("/api/notes", function (req, res) {
     var id = 1;
     var newNote = req.body.title;
     notes.push(newNote);
@@ -46,7 +54,7 @@ app.post("/api/notes", function (req, res) {
     })
     res.end();
     });
-})
+})*/
 
 app.listen(PORT, function() {
     console.log(`server is listening on PORT: http://localhost:${PORT}` );

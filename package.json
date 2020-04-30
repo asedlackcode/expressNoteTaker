@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/asedlackcode/expressNoteTaker#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "util": "^0.12.2",
+    "uuidv1": "^1.6.14"
   }
 }
