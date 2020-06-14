@@ -24,6 +24,10 @@ app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "./notes.html"))
 });
 
+app.get("/api/notes", function (req, res) {
+    res.sendFile(path.join(__dirname, "./db.json"))
+});
+
 app.get("/api/notes", function(req, res) {
     
     DB.getNote()
@@ -39,22 +43,11 @@ app.post("/api/notes",function(req,res) {
    res.end();
 });
 
-/*app.post("/api/notes", function (req, res) {
-    var id = 1;
-    var newNote = req.body.title;
-    notes.push(newNote);
-    id++;
-    var notesJ = json.stringify(notes);
-    fs.readFile("./db.json", "utf8", (err, res) => {
-        if (err) throw err;
-        ;
-        
-        fs.writeFile("./db.json", notesJ, "utf8", err => {
-        if (err) throw err;
-    })
-    res.end();
-    });
-})*/
+app.delete("api/notes/:id", function(req,res) {
+    DB.removeNote(req.params.id)
+    .then(() => res.send(200))
+    .catch((err) => console.log(err));
+});
 
 app.listen(PORT, function() {
     console.log(`server is listening on PORT: http://localhost:${PORT}` );
