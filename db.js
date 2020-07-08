@@ -45,7 +45,7 @@ class DB {
             });
         })
 
-        .then(filterNotes => this.writeFile(filterNotes));
+        .then(filterNotes => this.write(filterNotes));
     }
 }
 

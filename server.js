@@ -6,7 +6,7 @@ const router = require("express").Router();
 const DB = require("./db");
 
 const app = express();
-const PORT = 8081;
+const PORT = process.env.PORT || 8081;
 
 
 
@@ -43,7 +43,7 @@ app.post("/api/notes",function(req,res) {
    res.end();
 });
 
-app.delete("api/notes/:id", function(req,res) {
+app.delete("/api/notes/:id", function(req,res) {
     DB.removeNote(req.params.id)
     .then(() => res.send(200))
     .catch((err) => console.log(err));
