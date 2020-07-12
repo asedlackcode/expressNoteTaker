@@ -68,3 +68,9 @@ html, body {
   padding: 20px;
   cursor: pointer;
 }
+
+@media only screen and (max-width:760px) {
+  .note-textarea {
+    margin-top: 40px;
+  }
+}
